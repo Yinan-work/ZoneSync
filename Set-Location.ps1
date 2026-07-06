@@ -1,4 +1,4 @@
-#Requires -Version 5.0
+﻿#Requires -Version 5.0
 #Requires -RunAsAdministrator
 
 $CurrentVersion = "1.0.0"
