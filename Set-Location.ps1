@@ -1,4 +1,4 @@
-﻿#Requires -Version 5.0
+#Requires -Version 5.0
 #Requires -RunAsAdministrator
 
 $CurrentVersion = "1.0.0"
@@ -45,10 +45,10 @@ if ($Lang -eq 'zh') {
     $L.GeoIdParseFail     = "无法解析国家代码 '{0}' 的 GeoID。"
     
     $L.MenuTitle          = "ZoneSync - Windows 地区和时间设置工具 v{0}"
-    $L.MenuOpt0           = "0. 自动检测 (基于当前网络 IP)"
-    $L.MenuOpt1           = "1. 手动输入城市 (例如: Beijing, New York, 巴黎)"
-    $L.MenuOpt2           = "2. 检查更新"
-    $L.MenuOptQ           = "Q. 退出 (Quit)"
+    $L.MenuOpt0           = "0: 自动检测当前位置并应用"
+    $L.MenuOpt1           = "1: 手动输入城市名称"
+    $L.MenuOpt2           = "2: 检查脚本更新"
+    $L.MenuOptQ           = "Q: 退出"
     $L.MenuPrompt         = "请输入您的选择 (0, 1, 2, 或 Q)"
     $L.MenuInvalid        = "无效的选择 '{0}'。脚本将退出。"
     $L.MenuExit           = "用户选择退出。"
@@ -104,10 +104,10 @@ if ($Lang -eq 'zh') {
     $L.GeoIdParseFail     = "Failed to parse GeoID for country code '{0}'."
     
     $L.MenuTitle          = "ZoneSync - Windows Region & Time Zone Configuration Tool v{0}"
-    $L.MenuOpt0           = "0. Auto-Detect (IP-based)"
-    $L.MenuOpt1           = "1. Manual City Search (e.g., 'New York', 'London', 'Tokyo')"
-    $L.MenuOpt2           = "2. Check for Updates"
-    $L.MenuOptQ           = "Q. Quit"
+    $L.MenuOpt0           = "0: Auto-detect location and apply."
+    $L.MenuOpt1           = "1: Manually input a city name."
+    $L.MenuOpt2           = "2: Check for script updates."
+    $L.MenuOptQ           = "Q: Quit."
     $L.MenuPrompt         = "Enter your choice (0, 1, 2, or Q)"
     $L.MenuInvalid        = "Invalid choice '{0}'. Exiting."
     $L.MenuExit           = "Exiting."
@@ -342,20 +342,21 @@ function Get-WindowsTimeZoneId {
 # Main Logic
 # -------------------------------------------------------------------------
 
-Clear-Host
-Write-Host "================================================================"
-Write-Host ($L.MenuTitle -f $CurrentVersion)
-Write-Host "================================================================"
-Write-Host ""
-Write-Host $L.MenuOpt0
-Write-Host $L.MenuOpt1
-Write-Host $L.MenuOpt2
-Write-Host $L.MenuOptQ
-Write-Host ""
+do {
+    Clear-Host
+    Write-Host "================================================================"
+    Write-Host ($L.MenuTitle -f $CurrentVersion)
+    Write-Host "================================================================"
+    Write-Host ""
+    Write-Host $L.MenuOpt0
+    Write-Host $L.MenuOpt1
+    Write-Host $L.MenuOpt2
+    Write-Host $L.MenuOptQ
+    Write-Host ""
 
-$choice = Read-Host $L.MenuPrompt
+    $choice = Read-Host $L.MenuPrompt
 
-switch ($choice) {
+    switch ($choice) {
     "0" {
         $ipInfo = Get-IPLocation
         if ($ipInfo) {
@@ -414,11 +415,15 @@ switch ($choice) {
     }
     "Q" {
         Write-Host $L.MenuExit
+        break
     }
     default {
         Write-Warning ($L.MenuInvalid -f $choice)
     }
 }
 
-Write-Host ""
-Read-Host $L.MenuPressEnter
+if ($choice -ne "Q" -and $choice -ne "q") {
+    Write-Host ""
+    Read-Host $L.MenuPressEnter
+}
+} while ($true)
