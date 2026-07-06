@@ -413,7 +413,7 @@ do {
     "3" {
         Check-Update
     }
-    "Q", "q" {
+    "Q" {
         Write-Host $L.MenuExit
         exit
     }
