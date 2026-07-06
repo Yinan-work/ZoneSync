@@ -1,4 +1,4 @@
-#Requires -Version 5.0
+﻿#Requires -Version 5.0
 #Requires -RunAsAdministrator
 
 $CurrentVersion = "1.0.0"
@@ -415,7 +415,7 @@ do {
     }
     "Q" {
         Write-Host $L.MenuExit
-        break
+        exit
     }
     default {
         Write-Warning ($L.MenuInvalid -f $choice)
